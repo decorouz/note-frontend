@@ -1,24 +1,34 @@
 import React from 'react'
 
-const Form = (props) => {
+const Form = ({
+  loginHandler,
+  username,
+  setUsername,
+  password,
+  setPassword,
+  addNote,
+  newNote,
+  noteChangeHandler,
+  user,
+}) => {
   const loginForm = () => (
-    <form onSubmit={props.handleLogin}>
+    <form onSubmit={loginHandler}>
       <div>
         username
         <input
           type="text"
-          value={props.username}
+          value={username}
           name="Username"
-          onChange={({ target }) => props.setUsername(target.value)}
+          onChange={({ target }) => setUsername(target.value)}
         />
       </div>
       <div>
         password
         <input
           type="text"
-          value={props.password}
+          value={password}
           name="Passowrd"
-          onChange={({ target }) => props.setPassword(target.value)}
+          onChange={({ target }) => setPassword(target.value)}
         />
       </div>
       <button type="submit">login</button>
@@ -26,19 +36,19 @@ const Form = (props) => {
   )
 
   const noteForm = () => (
-    <form onSubmit={props.addNote}>
-      <input value={props.newNote} onChange={props.handleNoteChange} />
+    <form onSubmit={addNote}>
+      <input value={newNote} onChange={noteChangeHandler} />
       <button type="submit">save</button>
     </form>
   )
 
   return (
     <div>
-      {props.user === null ? (
+      {user === null ? (
         loginForm()
       ) : (
         <div>
-          <p>{props.user.name} loggeed in</p>
+          <p>{user.name} loggeed in</p>
           {noteForm()}
         </div>
       )}
