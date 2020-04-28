@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Note from './components/Note'
 import noteService from './service/notes'
 import loginService from './service/login'
+import Form from './components/Form'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
 
@@ -79,50 +80,61 @@ const App = (props) => {
     }
   }
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="text"
-          value={password}
-          name="Passowrd"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
-  )
+  // const loginForm = () => (
+  //   <form onSubmit={handleLogin}>
+  //     <div>
+  //       username
+  //       <input
+  //         type="text"
+  //         value={username}
+  //         name="Username"
+  //         onChange={({ target }) => setUsername(target.value)}
+  //       />
+  //     </div>
+  //     <div>
+  //       password
+  //       <input
+  //         type="text"
+  //         value={password}
+  //         name="Passowrd"
+  //         onChange={({ target }) => setPassword(target.value)}
+  //       />
+  //     </div>
+  //     <button type="submit">login</button>
+  //   </form>
+  // )
 
-  const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input value={newNote} onChange={handleNoteChange} />
-      <button type="submit">save</button>
-    </form>
-  )
+  // const noteForm = () => (
+  //   <form onSubmit={addNote}>
+  //     <input value={newNote} onChange={handleNoteChange} />
+  //     <button type="submit">save</button>
+  //   </form>
+  // )
 
   return (
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
 
-      {user === null ? (
+      {/* {user === null ? (
         loginForm()
       ) : (
         <div>
           <p>{user.name} loggeed in</p>
           {noteForm()}
         </div>
-      )}
+      )} */}
+      <Form
+        loginHandler={handleLogin}
+        username={username}
+        setUsername={setUsername}
+        password={password}
+        setPassword={setPassword}
+        addNote={addNote}
+        newNote={newNote}
+        noteChangeHandler={handleNoteChange}
+        user={user}
+      />
 
       <h2>Notes</h2>
 
