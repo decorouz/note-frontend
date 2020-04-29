@@ -91,6 +91,12 @@ const App = (props) => {
     }
   }
 
+  const handleLogout = (event) => {
+    event.preventDefault()
+    window.localStorage.removeItem('LoggedNoteappUser')
+    setUser(null)
+  }
+
   const noteToShow = showAll ? notes : notes.filter((note) => note.important)
 
   return (
@@ -108,6 +114,7 @@ const App = (props) => {
         addNote={addNote}
         handleNoteChange={handleNoteChange}
         user={user}
+        handleLogout={handleLogout}
       />
 
       <h2>Notes</h2>

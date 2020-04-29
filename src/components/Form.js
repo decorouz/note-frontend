@@ -10,6 +10,7 @@ const Form = ({
   newNote,
   handleNoteChange,
   user,
+  handleLogout,
 }) => {
   const loginForm = () => (
     <form onSubmit={loginHandler}>
@@ -48,7 +49,12 @@ const Form = ({
         loginForm()
       ) : (
         <div>
-          <p>{user.name} logged in</p>
+          <p>
+            {user.name} logged in
+            <br />
+            <button onClick={handleLogout}>logout</button>
+            <br />
+          </p>
           {noteForm()}
         </div>
       )}
