@@ -8,7 +8,7 @@ const Form = ({
   setPassword,
   addNote,
   newNote,
-  noteChangeHandler,
+  handleNoteChange,
   user,
 }) => {
   const loginForm = () => (
@@ -25,7 +25,7 @@ const Form = ({
       <div>
         password
         <input
-          type="text"
+          type="password"
           value={password}
           name="Passowrd"
           onChange={({ target }) => setPassword(target.value)}
@@ -37,7 +37,7 @@ const Form = ({
 
   const noteForm = () => (
     <form onSubmit={addNote}>
-      <input value={newNote} onChange={noteChangeHandler} />
+      <input value={newNote} onChange={handleNoteChange} />
       <button type="submit">save</button>
     </form>
   )
@@ -48,7 +48,7 @@ const Form = ({
         loginForm()
       ) : (
         <div>
-          <p>{user.name} loggeed in</p>
+          <p>{user.name} logged in</p>
           {noteForm()}
         </div>
       )}

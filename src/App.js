@@ -21,12 +21,22 @@ const App = (props) => {
     })
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('LoggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token)
+    }
+  }, [])
+
   const addNote = (event) => {
     event.preventDefault()
     const newObject = {
       content: newNote,
       date: new Date().toISOString(),
       important: Math.random() > 0.5,
+      id: notes.length + 1,
     }
 
     noteService.create(newObject).then((returnedNote) => {
@@ -59,8 +69,6 @@ const App = (props) => {
       })
   }
 
-  const noteToShow = showAll ? notes : notes.filter((note) => note.important)
-
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -69,6 +77,9 @@ const App = (props) => {
         password,
       })
 
+      window.localStorage.setItem('LoggedNoteappUser', JSON.stringify(user))
+
+      noteService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -79,6 +90,8 @@ const App = (props) => {
       }, 5000)
     }
   }
+
+  const noteToShow = showAll ? notes : notes.filter((note) => note.important)
 
   return (
     <div>
@@ -91,9 +104,9 @@ const App = (props) => {
         setUsername={setUsername}
         password={password}
         setPassword={setPassword}
-        addNote={addNote}
         newNote={newNote}
-        noteChangeHandler={handleNoteChange}
+        addNote={addNote}
+        handleNoteChange={handleNoteChange}
         user={user}
       />
 
