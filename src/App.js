@@ -10,7 +10,6 @@ import LoginForm from './components/LoginForm'
 
 const App = () => {
   const [notes, setNotes] = useState([])
-  const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
@@ -31,21 +30,6 @@ const App = () => {
       noteService.setToken(user.token)
     }
   }, [])
-
-  const addNote = (event) => {
-    event.preventDefault()
-    const newObject = {
-      content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() > 0.5,
-      id: notes.length + 1,
-    }
-
-    noteService.create(newObject).then((returnedNote) => {
-      setNotes(notes.concat(returnedNote))
-      setNewNote('')
-    })
-  }
 
   const toggleImportanceOf = (id) => {
     const note = notes.find((n) => n.id === id)
@@ -95,6 +79,12 @@ const App = () => {
     setUser(null)
   }
 
+  const addNote = async (noteObject) => {
+    const response = await noteService.create(noteObject)
+
+    setNotes(notes.concat(response))
+  }
+
   const noteToShow = showAll ? notes : notes.filter((note) => note.important)
 
   const loginForm = () => (
@@ -111,11 +101,7 @@ const App = () => {
 
   const noteForm = () => (
     <Togglable buttonLabel="new note">
-      <NoteForm
-        onSubmit={addNote}
-        value={newNote}
-        handleNoteChange={({ target }) => setNewNote(target.value)}
-      />
+      <NoteForm createNote={addNote} />
     </Togglable>
   )
 
