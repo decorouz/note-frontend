@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import Note from './components/Note'
 import noteService from './service/notes'
 import loginService from './service/login'
-import Form from './components/Form'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
+import NoteForm from './components/NoteForm'
+import LoginForm from './components/LoginForm'
 
-const App = (props) => {
+const App = () => {
+  const [loginVisible, setLoginVisible] = useState(false)
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(false)
@@ -43,10 +45,6 @@ const App = (props) => {
       setNotes(notes.concat(returnedNote))
       setNewNote('')
     })
-  }
-
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value)
   }
 
   const toggleImportanceOf = (id) => {
@@ -102,20 +100,30 @@ const App = (props) => {
   return (
     <div>
       <h1>Notes</h1>
-      <Notification message={errorMessage} />
-
-      <Form
-        loginHandler={handleLogin}
-        username={username}
-        setUsername={setUsername}
-        password={password}
-        setPassword={setPassword}
-        newNote={newNote}
-        addNote={addNote}
-        handleNoteChange={handleNoteChange}
-        user={user}
-        handleLogout={handleLogout}
-      />
+      {user === null ? (
+        <div>
+          <Notification message={errorMessage} />
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+        </div>
+      ) : (
+        <div>
+          <p>
+            {user.name} logged in
+            <button onClick={handleLogout}>logout</button>
+          </p>
+          <NoteForm
+            newNote={newNote}
+            handleNoteSubmit={addNote}
+            handleNoteChange={({ target }) => setNewNote(target.value)}
+          />
+        </div>
+      )}
 
       <h2>Notes</h2>
 
@@ -128,6 +136,7 @@ const App = (props) => {
             key={i}
             note={note}
             toggleImportance={() => toggleImportanceOf(note.id)}
+            user={user}
           />
         ))}
       </ul>
