@@ -80,6 +80,7 @@ const App = () => {
   }
 
   const addNote = async (noteObject) => {
+    noteFormRef.current.toggleVisibility()
     const response = await noteService.create(noteObject)
 
     setNotes(notes.concat(response))
@@ -99,8 +100,10 @@ const App = () => {
     </Togglable>
   )
 
+  const noteFormRef = React.createRef()
+
   const noteForm = () => (
-    <Togglable buttonLabel="new note">
+    <Togglable buttonLabel="new note" ref={noteFormRef}>
       <NoteForm createNote={addNote} />
     </Togglable>
   )
