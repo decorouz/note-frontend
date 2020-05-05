@@ -135,8 +135,8 @@ const App = () => {
           <Note
             key={i}
             note={note}
-            toggleImportance={() => toggleImportanceOf(note.id)}
             user={user}
+            toggleImportance={() => toggleImportanceOf(note.id)}
           />
         ))}
       </ul>
