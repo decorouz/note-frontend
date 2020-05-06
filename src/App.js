@@ -110,13 +110,10 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={errorMessage} />
       <h1>Notes</h1>
-      {user === null ? (
-        <div>
-          <Notification message={errorMessage} />
-
-          {loginForm()}
-        </div>
+      {!user ? (
+        <div>{loginForm()}</div>
       ) : (
         <div>
           <p>
@@ -135,7 +132,6 @@ const App = () => {
           <Note
             key={i}
             note={note}
-            user={user}
             toggleImportance={() => toggleImportanceOf(note.id)}
           />
         ))}
